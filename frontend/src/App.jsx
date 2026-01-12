@@ -51,7 +51,7 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="text-center">
             <h1 className="text-4xl font-bold text-gray-900 mb-2">
-              📚 AI Wiki Quiz Generator
+               AI Wiki Quiz Generator
             </h1>
             <p className="text-gray-600 mb-4">
               Transform Wikipedia articles into interactive quizzes using AI
@@ -88,7 +88,7 @@ function App() {
       {backendStatus === 'disconnected' && (
         <div className="max-w-3xl mx-auto px-4 mt-4">
           <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded">
-            <p className="font-semibold text-red-800">⚠️ Cannot connect to backend API</p>
+            <p className="font-semibold text-red-800"> Cannot connect to backend API</p>
             <p className="text-red-700 text-sm mt-1">
               Make sure the backend server is running on http://localhost:8000
             </p>
@@ -111,7 +111,7 @@ function App() {
                   : 'bg-white text-gray-600 hover:bg-gray-50'
               }`}
             >
-              <span className="mr-2">🚀</span>
+              
               Generate Quiz
             </button>
             <button
@@ -122,7 +122,7 @@ function App() {
                   : 'bg-white text-gray-600 hover:bg-gray-50'
               }`}
             >
-              <span className="mr-2">📚</span>
+              
               Quiz History
             </button>
           </div>
