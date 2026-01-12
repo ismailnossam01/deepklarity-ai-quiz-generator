@@ -19,8 +19,25 @@ function App() {
         await checkHealth();
         setBackendStatus('connected');
       } catch (error) {
-        setBackendStatus('disconnected');
-        console.error('Backend connection failed:', error);
+        // If timeout, might be cold start - try once more
+        if (error.includes('timeout')) {
+          console.log('Backend might be sleeping, retrying...');
+          setBackendStatus('waking');
+          
+          // Wait 30 seconds and retry
+          setTimeout(async () => {
+            try {
+              await checkHealth();
+              setBackendStatus('connected');
+            } catch (retryError) {
+              setBackendStatus('disconnected');
+              console.error('Backend connection failed:', retryError);
+            }
+          }, 30000);
+        } else {
+          setBackendStatus('disconnected');
+          console.error('Backend connection failed:', error);
+        }
       }
     };
 
@@ -34,7 +51,7 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="text-center">
             <h1 className="text-4xl font-bold text-gray-900 mb-2">
-              AI Wiki Quiz Generator
+              📚 AI Wiki Quiz Generator
             </h1>
             <p className="text-gray-600 mb-4">
               Transform Wikipedia articles into interactive quizzes using AI
@@ -48,6 +65,8 @@ function App() {
                     ? 'bg-green-500'
                     : backendStatus === 'disconnected'
                     ? 'bg-red-500'
+                    : backendStatus === 'waking'
+                    ? 'bg-yellow-500 animate-pulse'
                     : 'bg-yellow-500'
                 }`}
               />
@@ -56,6 +75,8 @@ function App() {
                   ? 'Backend Connected'
                   : backendStatus === 'disconnected'
                   ? 'Backend Disconnected'
+                  : backendStatus === 'waking'
+                  ? 'Waking up backend... (30s)'
                   : 'Checking Backend...'}
               </span>
             </div>
@@ -67,7 +88,7 @@ function App() {
       {backendStatus === 'disconnected' && (
         <div className="max-w-3xl mx-auto px-4 mt-4">
           <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded">
-            <p className="font-semibold text-red-800">Cannot connect to backend API</p>
+            <p className="font-semibold text-red-800">⚠️ Cannot connect to backend API</p>
             <p className="text-red-700 text-sm mt-1">
               Make sure the backend server is running on http://localhost:8000
             </p>
@@ -90,7 +111,7 @@ function App() {
                   : 'bg-white text-gray-600 hover:bg-gray-50'
               }`}
             >
-              
+              <span className="mr-2">🚀</span>
               Generate Quiz
             </button>
             <button
@@ -101,6 +122,7 @@ function App() {
                   : 'bg-white text-gray-600 hover:bg-gray-50'
               }`}
             >
+              <span className="mr-2">📚</span>
               Quiz History
             </button>
           </div>
