@@ -90,10 +90,7 @@ function App() {
           <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded">
             <p className="font-semibold text-red-800"> Cannot connect to backend API</p>
             <p className="text-red-700 text-sm mt-1">
-              Make sure the backend server is running on http://localhost:8000
-            </p>
-            <p className="text-red-700 text-sm">
-              Run: <code className="bg-red-100 px-2 py-1 rounded">python -m uvicorn app.main:app --reload</code>
+              Make sure the backend server is running on render
             </p>
           </div>
         </div>
